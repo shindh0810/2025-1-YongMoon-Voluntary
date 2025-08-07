@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>신동환의 블로그</title>
+  <style>
+    body {
+      font-family: 'Helvetica', sans-serif;
+      margin: 0;
+      background-color: #ffffff;
+      color: #333333;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #b0b0b0;
+      padding: 20px 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      position: relative;
+      max-width: 400px;
+      flex-grow: 1;
+      margin-right: auto;
+    }
+
+    .search-box input[type="text"] {
+      width: 100%;
+      padding: 8px 38px 8px 15px;
+      border: 1.5px solid #666666;
+      border-radius: 20px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+      color: #333333;
+      background-color: #ffffff;
+    }
+
+    .search-box input[type="text"]:focus {
+      border-color: #333333;
+    }
+
+    .search-box button {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 5px 8px;
+      color: #666666;
+      font-size: 1.2rem;
+    }
+
+    .menu-bar {
+      display: flex;
+      flex-shrink: 0;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 20px;
+      width: 24px;
+    }
+
+    .menu-btn span {
+      display: block;
+      height: 3px;
+      background-color: #333333;
+      border-radius: 2px;
+      transition: background-color 0.3s;
+    }
+
+    .menu-btn:hover span {
+      background-color: #111111;
+    }
+
+    .main-content {
+      display: flex;
+      max-width: 900px;
+      margin: 30px auto 0 auto;
+      gap: 40px;
+      padding: 0 20px;
+      flex-grow: 1;
+    }
+
+    /* 왼쪽 프로필 영역 - 너비 축소 */
+    .profile {
+      background-color: #b0b0b0;
+      flex: 1;
+      max-width: 180px; /* 여기서 줄임 */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      text-align: center;
+      color: #333333;
+    }
+
+    .profile-img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: inline-block;
+    }
+
+    .profile h2 {
+      margin: 10px 0 5px;
+      font-size: 1.5rem;
+      color: #333333;
+    }
+
+    .profile p {
+      color: #555555;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    /* 오른쪽 게시글 영역 */
+    .posts {
+      flex: 2;
+      color: #333333;
+      border-bottom: 2px solid #b0b0b0; /* 게시글과 댓글 구분선 */
+      padding-bottom: 30px;
+    }
+
+    .posts h2 {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #b0b0b0;
+      padding-bottom: 6px;
+      color: #333333;
+    }
+
+    .post {
+      margin-bottom: 30px; /* 간격 넓힘 */
+    }
+
+    .post a {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333333;
+      text-decoration: none;
+    }
+
+    .post a::before {
+      content: "📄 ";
+      margin-right: 6px;
+    }
+
+    .post a:hover {
+      text-decoration: underline;
+      color: #111111;
+    }
+
+    .post-date {
+      font-size: 0.9rem;
+      color: #666666;
+      margin-top: 4px;
+    }
+
+    /* 댓글창 영역 */
+    footer {
+      background-color: #f9f9f9;
+      border-top: 2px solid #b0b0b0; /* 댓글창과 게시글 구분선 */
+      padding: 20px;
+      max-width: 900px;
+      margin: 30px auto 30px auto;
+      display: flex;
+      justify-content: center; /* 댓글창 가로 중앙 정렬 */
+    }
+
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .comment-form label {
+      font-weight: 600;
+      color: #333333;
+    }
+
+    .comment-form textarea {
+      resize: vertical;
+      min-height: 80px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1.5px solid #666666;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .comment-form textarea:focus {
+      border-color: #333333;
+    }
+
+    .comment-form button {
+      width: 100%; /* 가로 꽉 채우기 */
+      background-color: #b0b0b0;
+      border: none;
+      padding: 10px 0; /* 세로는 유지 */
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #333333;
+      transition: background-color 0.3s;
+    }
+
+    .comment-form button:hover {
+      background-color: #999999;
+    }
+
+    @media (max-width: 700px) {
+      header .header-inner {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+      .search-box {
+        flex: 1 1 100%;
+        margin: 0 0 10px 0;
+      }
+      .main-content {
+        flex-direction: column;
+        max-width: 90%;
+      }
+      .profile, .posts {
+        max-width: 100%;
+      }
+      footer {
+        margin: 20px 10px;
+      }
+      .comment-form {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <form class="search-box" action="#" method="get" role="search" aria-label="블로그 검색">
+        <input type="text" placeholder="검색어를 입력하세요" name="q" />
+        <button type="submit" aria-label="검색">🔍</button>
+      </form>
+      <nav class="menu-bar">
+        <button class="menu-btn" aria-label="메뉴">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <aside class="profile">
+      <img src="https://cdn.thescoop.co.kr/news/photo/202207/54777_81114_3251.jpg" alt="신동환 프로필 사진" class="profile-img" />
+      <h2>신동환</h2>
+      <p>안녕하세요! 웹 개발과 디자인에 관심이 많고,<br />
+         코딩과 UI/UX 공부를 즐깁니다.</p>
+    </aside>
+
+    <section class="posts">
+      <h2>최근 게시글</h2>
+      <article class="post">
+        <a href="#">자바스크립트 비동기 처리 이해하기</a>
+        <div class="post-date">2025-08-01</div>
+      </article>
+      <article class="post">
+        <a href="#">반응형 웹 디자인 기초</a>
+        <div class="post-date">2025-07-28</div>
+      </article>
+      <article class="post">
+        <a href="#">CSS Flexbox 완벽 가이드</a>
+        <div class="post-date">2025-07-20</div>
+      </article>
+      <article class="post">
+        <a href="#">웹 접근성 개선 팁</a>
+        <div class="post-date">2025-07-15</div>
+      </article>
+      <article class="post">
+        <a href="#">모던 HTML5 요소 활용법</a>
+        <div class="post-date">2025-07-10</div>
+      </article>
+    </section>
+  </div>
+
+  <footer>
+    <form class="comment-form" action="#" method="post" aria-label="댓글 작성 폼">
+      <label for="comment">코딩 관련 댓글 남기기:</label>
+      <textarea id="comment" name="comment" placeholder="댓글을 입력하세요" required></textarea>
+      <button type="submit">댓글 작성</button>
+    </form>
+  </footer>
+</body>
+</html>
